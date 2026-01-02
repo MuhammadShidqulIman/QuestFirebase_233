@@ -16,6 +16,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myfirebase.R
+import com.example.myfirebase.modeldata.DetailSiswa
+import com.example.myfirebase.modeldata.UIStateSiswa
 import com.example.myfirebase.viewmodel.EntryViewModel
 import com.example.myfirebase.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.launch

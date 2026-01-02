@@ -1,8 +1,12 @@
 package com.example.myfirebase.viewmodel
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import com.example.myfirebase.modeldata.Siswa
+import com.example.myfirebase.repositori.RepositorySiswa
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -12,7 +16,7 @@ sealed interface StatusUiSiswa {
     object Loading : StatusUiSiswa
 }
 
-class HomeViewModel(private val repositorySiswa: RepositorySiswa): ViewModel() {
+class HomeViewModel(private val repositorySiswa: RepositorySiswa) : ViewModel() {
     var statusUiSiswa: StatusUiSiswa by mutableStateOf(StatusUiSiswa.Loading)
         private set
 
@@ -25,9 +29,9 @@ class HomeViewModel(private val repositorySiswa: RepositorySiswa): ViewModel() {
             statusUiSiswa = StatusUiSiswa.Loading
             statusUiSiswa = try {
                 StatusUiSiswa.Success(repositorySiswa.getDataSiswa())
-            } catch (e: IOException) {
+            } catch (_: IOException) {
                 StatusUiSiswa.Error
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 StatusUiSiswa.Error
             }
         }

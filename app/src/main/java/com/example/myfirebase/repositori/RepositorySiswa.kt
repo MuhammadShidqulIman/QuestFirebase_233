@@ -82,4 +82,9 @@ class FirebaseRepositorySiswa : RepositorySiswa {
         )?.await()
     }
 
-  
+    override suspend fun hapusSatuSiswa(id: Long) {
+        val query = collection.whereEqualTo("id", id).get().await()
+        val doc = query.documents.firstOrNull()
+        doc?.reference?.delete()?.await()
+    }
+}

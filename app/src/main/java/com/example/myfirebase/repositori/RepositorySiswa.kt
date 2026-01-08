@@ -69,3 +69,17 @@ class FirebaseRepositorySiswa : RepositorySiswa {
         }
     }
 
+    override suspend fun editSatuSiswa(id: Long, siswa: Siswa) {
+        val query = collection.whereEqualTo("id", id).get().await()
+        val doc = query.documents.firstOrNull()
+        doc?.reference?.set(
+            mapOf(
+                "id" to id,
+                "nama" to siswa.nama,
+                "alamat" to siswa.alamat,
+                "telpon" to siswa.telpon
+            )
+        )?.await()
+    }
+
+  

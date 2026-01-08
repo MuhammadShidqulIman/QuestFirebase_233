@@ -100,3 +100,56 @@ fun DetailSiswaScreen(
     }
 }
 
+@Composable
+fun BodyDetailSiswa(
+    statusUIDetail: StatusUIDetail,
+    retryAction: () -> Unit,
+    onDelete: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    when (statusUIDetail) {
+        is StatusUIDetail.Loading -> {
+
+            Text(text = "Loading...", modifier = modifier)
+        }
+        is StatusUIDetail.Success -> {
+            if (statusUIDetail.satusiswa != null) {
+                Column(
+                    modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
+                    verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
+                ) {
+                    var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false) }
+
+                    ItemDetailSiswa(
+                        siswa = statusUIDetail.satusiswa,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    OutlinedButton(
+                        onClick = { deleteConfirmationRequired = true },
+                        shape = MaterialTheme.shapes.small,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(stringResource(R.string.delete))
+                    }
+
+                    if (deleteConfirmationRequired) {
+                        DeleteConfirmationDialog(
+                            onDeleteConfirm = {
+                                deleteConfirmationRequired = false
+                                onDelete()
+                            },
+                            onDeleteCancel = { deleteConfirmationRequired = false },
+                            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
+                        )
+                    }
+                }
+            }
+        }
+        is StatusUIDetail.Error -> {
+
+            Text(text = "Gagal memuat data", modifier = modifier)
+        }
+    }
+}
+

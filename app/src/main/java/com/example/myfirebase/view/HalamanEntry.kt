@@ -31,14 +31,15 @@ fun EntrySiswaScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             SiswaTopAppBar(
                 title = stringResource(DestinasiEntry.titleRes),
                 canNavigateBack = true,
-                navigateUp = navigateBack,
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
+                navigateUp = navigateBack
             )
         }
     ) { innerPadding ->
@@ -46,8 +47,11 @@ fun EntrySiswaScreen(
             uiStateSiswa = viewModel.uiStateSiswa,
             onSiswaValueChange = viewModel::updateUiState,
             onSaveClick = {
+
                 coroutineScope.launch {
-                    viewModel.addSiswa()
+
+                    viewModel.saveSiswa()
+
                     navigateBack()
                 }
             },
@@ -129,7 +133,7 @@ fun FormTambahSiswa(
                 modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium))
             )
         }
-        Divider(
+        HorizontalDivider(
             thickness = dimensionResource(R.dimen.padding_small),
             modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_medium))
         )
